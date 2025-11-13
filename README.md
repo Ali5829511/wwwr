@@ -9,6 +9,20 @@
 
 **الإصدار الحالي / Current Version:** 4.1 | [سجل التحديثات / Updates Log](UPDATES_LOG.md)
 
+## 🌐 الموقع المنشور - Live Demo
+
+**🎉 النظام منشور ويعمل الآن!**
+
+- 🚀 **Vercel:** [https://wwwr-d8jp.vercel.app](https://wwwr-d8jp.vercel.app) ⭐ يعمل الآن
+- 🌐 **Netlify:** [https://enchanting-taiyaki-99f53c.netlify.app](https://enchanting-taiyaki-99f53c.netlify.app)
+
+**بيانات تسجيل الدخول للتجربة:**
+- المدير: `admin` / `admin123`
+- موظف المخالفات: `violations_officer` / `violations123`
+- الاستعلام: `inquiry_user` / `inquiry123`
+
+---
+
 ⚠️ **ملحوظة أمنية:** يرجى قراءة [إرشادات الأمان](SECURITY.md) قبل النشر الرسمي
 
 ## 📁 هيكل المشروع - Project Structure
