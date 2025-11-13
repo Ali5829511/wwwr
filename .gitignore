@@ -1,0 +1,56 @@
+# Configuration files with sensitive data
+plate_recognizer_config.json
+config/api-keys.js
+config/database.php
+.env
+.env.local
+
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+.cache/
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+.tmp/
+tmp/
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Database files (if used locally)
+*.sqlite
+*.sqlite3
+*.db
+
+# Uploads and user generated content
+uploads/
+images/uploads/
+temp_uploads/
+
+# Package archives
+*.tar.gz
+*.zip
+*.rar

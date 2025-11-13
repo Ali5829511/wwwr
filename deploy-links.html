@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>روابط النشر - Deployment Links</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 30px 90px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 42px;
+            margin-bottom: 15px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .platform-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+
+        .platform-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .platform-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .netlify { color: #00C7B7; }
+        .vercel { color: #000000; }
+        .github { color: #181717; }
+        .render { color: #46E3B7; }
+
+        .platform-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .platform-desc {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .deploy-btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .deploy-btn:hover {
+            background: #5568d3;
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .quick-info {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .quick-info h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .info-item i {
+            color: #51cf66;
+            margin-top: 3px;
+        }
+
+        .info-item span {
+            color: #333;
+            font-size: 15px;
+        }
+
+        .steps {
+            background: #e7f5ff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .steps h3 {
+            color: #1971c2;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            color: #333;
+            font-size: 15px;
+            padding-top: 5px;
+        }
+
+        .repo-info {
+            background: #fff4e6;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-right: 5px solid #ffa94d;
+        }
+
+        .repo-info h3 {
+            color: #d9480f;
+            margin-bottom: 15px;
+        }
+
+        .repo-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .repo-label {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .repo-value {
+            color: #333;
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 3px 10px;
+            border-radius: 5px;
+        }
+
+        .docs-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .doc-link {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 15px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .doc-link:hover {
+            border-color: #667eea;
+            transform: translateX(-5px);
+        }
+
+        .doc-link i {
+            color: #667eea;
+            font-size: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .platform-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .success-badge {
+            display: inline-block;
+            background: #d3f9d8;
+            color: #2b8a3e;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <i class="fas fa-rocket"></i>
+            روابط النشر السريع
+        </h1>
+        <p class="subtitle">اختر المنصة المفضلة لديك لنشر موقعك في دقائق</p>
+
+        <div class="success-badge">
+            <i class="fas fa-check-circle"></i>
+            النظام جاهز للنشر - 0 ثغرات أمنية
+        </div>
+
+        <!-- Repository Info -->
+        <div class="repo-info">
+            <h3><i class="fas fa-code-branch"></i> معلومات المستودع</h3>
+            <div class="repo-detail">
+                <span class="repo-label">المستودع:</span>
+                <span class="repo-value">Ali5829511/wwwr</span>
+            </div>
+            <div class="repo-detail">
+                <span class="repo-label">Branch:</span>
+                <span class="repo-value">copilot/review-security-and-deployment</span>
+            </div>
+            <div class="repo-detail">
+                <span class="repo-label">Build Command:</span>
+                <span class="repo-value">echo 'No build needed'</span>
+            </div>
+            <div class="repo-detail">
+                <span class="repo-label">Publish Directory:</span>
+                <span class="repo-value">. (root)</span>
+            </div>
+        </div>
+
+        <!-- Quick Steps -->
+        <div class="steps">
+            <h3><i class="fas fa-list-check"></i> خطوات النشر السريع</h3>
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-text">اختر منصة النشر من الأسفل (موصى به: Netlify)</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-text">سجل الدخول إلى المنصة باستخدام حساب GitHub</div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-text">اختر المستودع واضغط على Deploy</div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-text">انتظر دقيقتين وستحصل على رابط موقعك!</div>
+            </div>
+        </div>
+
+        <!-- Platforms Grid -->
+        <div class="platform-grid">
+            <!-- Netlify -->
+            <div class="platform-card" onclick="window.open('https://app.netlify.com/start', '_blank')">
+                <div class="platform-icon netlify">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <div class="platform-name">Netlify</div>
+                <div class="platform-desc">الأسرع والأسهل • مجاني • موصى به</div>
+                <a href="https://app.netlify.com/start" class="deploy-btn" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> نشر على Netlify
+                </a>
+            </div>
+
+            <!-- Vercel -->
+            <div class="platform-card" onclick="window.open('https://vercel.com/new', '_blank')">
+                <div class="platform-icon vercel">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="platform-name">Vercel</div>
+                <div class="platform-desc">سريع جداً • مجاني • ممتاز للأداء</div>
+                <a href="https://vercel.com/new" class="deploy-btn" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> نشر على Vercel
+                </a>
+            </div>
+
+            <!-- GitHub Pages -->
+            <div class="platform-card" onclick="window.open('https://github.com/Ali5829511/wwwr/settings/pages', '_blank')">
+                <div class="platform-icon github">
+                    <i class="fab fa-github"></i>
+                </div>
+                <div class="platform-name">GitHub Pages</div>
+                <div class="platform-desc">مدمج مع GitHub • مجاني • بسيط</div>
+                <a href="https://github.com/Ali5829511/wwwr/settings/pages" class="deploy-btn" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> تفعيل Pages
+                </a>
+            </div>
+
+            <!-- Render -->
+            <div class="platform-card" onclick="window.open('https://dashboard.render.com/select-repo?type=static', '_blank')">
+                <div class="platform-icon render">
+                    <i class="fas fa-server"></i>
+                </div>
+                <div class="platform-name">Render</div>
+                <div class="platform-desc">سهل الإعداد • مجاني • موثوق</div>
+                <a href="https://dashboard.render.com/select-repo?type=static" class="deploy-btn" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> نشر على Render
+                </a>
+            </div>
+        </div>
+
+        <!-- Quick Info -->
+        <div class="quick-info">
+            <h3><i class="fas fa-info-circle"></i> معلومات مهمة</h3>
+            <div class="info-item">
+                <i class="fas fa-check-circle"></i>
+                <span>جميع ملفات النشر جاهزة ومكونة بشكل صحيح</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Security headers مفعّلة للحماية (HTTPS, XSS, Frame)</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-check-circle"></i>
+                <span>النظام لا يحتاج build - سيُنشر فوراً</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-check-circle"></i>
+                <span>التحديثات التلقائية: أي push جديد سيُنشر تلقائياً</span>
+            </div>
+        </div>
+
+        <!-- Documentation Links -->
+        <div class="docs-links">
+            <a href="DEPLOY_NOW.md" class="doc-link">
+                <i class="fas fa-book"></i>
+                <span>دليل النشر الكامل</span>
+            </a>
+            <a href="DEPLOYMENT_CHECKLIST.md" class="doc-link">
+                <i class="fas fa-clipboard-check"></i>
+                <span>قائمة التحقق</span>
+            </a>
+            <a href="SECURITY_SETUP.md" class="doc-link">
+                <i class="fas fa-shield-alt"></i>
+                <span>إعدادات الأمان</span>
+            </a>
+            <a href="test-deployment.html" class="doc-link">
+                <i class="fas fa-vial"></i>
+                <span>اختبار النظام</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Prevent default click on platform cards
+        document.querySelectorAll('.platform-card').forEach(card => {
+            const btn = card.querySelector('.deploy-btn');
+            if (btn) {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            }
+        });
+
+        // Add animation on load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.platform-card').forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.5s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

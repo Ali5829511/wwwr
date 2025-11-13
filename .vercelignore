@@ -1,0 +1,37 @@
+# Vercel Ignore File
+
+# Archives
+*.tar.gz
+*.zip
+*.rar
+
+# Documentation markdown (not needed in deployment)
+*.md
+!README.md
+
+# Git
+.git
+.gitignore
+
+# Temporary files
+*.tmp
+*.temp
+
+# Large data files
+*.xlsx
+*.csv
+sample_data.sql
+schema.sql
+
+# Database packages
+database_package.tar.gz
+residential_units_update_package.tar.gz
+
+# Development files
+.vscode
+.idea
+
+# Screenshot files
+*.webp
+pasted_file_*.png
+*_2025-*.webp
