@@ -187,13 +187,8 @@ class AuthManager {
         localStorage.removeItem('userSession');
         localStorage.removeItem('currentUser');
         
-        // إعادة التوجيه إلى صفحة تسجيل الدخول
-        const currentPath = window.location.pathname;
-        if (currentPath.includes('/pages/')) {
-            window.location.href = '../pages/login.html';
-        } else if (!currentPath.endsWith('login.html')) {
-            window.location.href = 'pages/login.html';
-        }
+        // إعادة التوجيه إلى صفحة تسجيل الدخول (index.html)
+        window.location.href = 'index.html';
     }
 
     /**
@@ -250,7 +245,7 @@ class AuthManager {
      */
     requireAuth(requiredRoles = null) {
         if (!this.isAuthenticated()) {
-            window.location.href = '../index.html';
+            window.location.href = 'index.html';
             return false;
         }
         
@@ -268,22 +263,13 @@ class AuthManager {
      */
     redirectToDefaultPage() {
         if (!this.currentUser) {
-            const currentPath = window.location.pathname;
-            if (currentPath.includes('/pages/')) {
-                window.location.href = '../index.html';
-            } else {
-                window.location.href = 'index.html';
-            }
+            window.location.href = 'index.html';
             return;
         }
         
         // توجيه جميع المستخدمين إلى الصفحة الرئيسية
-        const currentPath = window.location.pathname;
-        if (currentPath.includes('/pages/')) {
-            window.location.href = 'home.html';
-        } else {
-            window.location.href = 'pages/home.html';
-        }
+        // جميع الملفات موجودة في الجذر، وليس في مجلد pages
+        window.location.href = 'home.html';
     }
 
     /**
