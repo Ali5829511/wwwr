@@ -514,12 +514,6 @@
         window.addEventListener('load', function() {
             loadAPIToken();
             loadHistory();
-            
-            // Initialize unsaved changes detection for API token form
-            const apiTokenForm = document.getElementById('apiTokenForm');
-            if (apiTokenForm && apiTokenForm.style.display !== 'none') {
-                window.trackFormChanges('apiTokenForm');
-            }
         });
 
         function loadAPIToken() {
@@ -545,6 +539,9 @@
                 document.querySelector('.status-header').appendChild(resetBtn);
             } else {
                 apiTokenInput.value = '';
+                // Initialize unsaved changes detection for API token form since it's visible
+                console.log('Tracking API token form for unsaved changes');
+                window.trackFormChanges('apiTokenForm');
             }
         }
 
