@@ -268,8 +268,7 @@ class AuthManager {
         }
         
         // توجيه جميع المستخدمين إلى الصفحة الرئيسية
-        // جميع الملفات موجودة في الجذر، وليس في مجلد pages
-        window.location.href = 'home.html';
+        window.location.href = 'pages/home.html';
     }
 
     /**
