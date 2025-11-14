@@ -16,6 +16,7 @@ class UnsavedChangesDetector {
         this.originalFormData = new Map();
         this.isEnabled = true;
         this.customMessage = 'لديك تغييرات غير محفوظة. هل تريد المغادرة؟';
+        this.protectedElements = new WeakSet(); // تتبع العناصر المحمية
         this.init();
     }
 
@@ -72,9 +73,17 @@ class UnsavedChangesDetector {
     saveOriginalFormData(form) {
         const formData = new FormData(form);
         const data = {};
-        for (let [key, value] of formData.entries()) {
-            data[key] = value;
+        
+        // استخدام getAll للحقول متعددة القيم (checkboxes, multi-select)
+        const processedKeys = new Set();
+        for (let [key] of formData.entries()) {
+            if (!processedKeys.has(key)) {
+                const values = formData.getAll(key);
+                data[key] = values.length > 1 ? values : values[0] || '';
+                processedKeys.add(key);
+            }
         }
+        
         this.originalFormData.set(form, data);
     }
 
@@ -90,19 +99,35 @@ class UnsavedChangesDetector {
         let hasChanges = false;
 
         // التحقق من كل حقل
-        for (let [key, originalValue] of Object.entries(originalData)) {
-            const currentValue = currentData.get(key) || '';
-            if (originalValue !== currentValue) {
+        const processedKeys = new Set();
+        for (let [key] of currentData.entries()) {
+            if (processedKeys.has(key)) continue;
+            processedKeys.add(key);
+
+            const originalValue = originalData[key];
+            const currentValues = currentData.getAll(key);
+            const currentValue = currentValues.length > 1 ? currentValues : currentValues[0] || '';
+
+            // مقارنة القيم (مع دعم المصفوفات)
+            if (Array.isArray(originalValue) && Array.isArray(currentValue)) {
+                if (originalValue.length !== currentValue.length ||
+                    !originalValue.every((val, idx) => val === currentValue[idx])) {
+                    hasChanges = true;
+                    break;
+                }
+            } else if (originalValue !== currentValue) {
                 hasChanges = true;
                 break;
             }
         }
 
         // التحقق من الحقول الجديدة
-        for (let [key, value] of currentData.entries()) {
-            if (!(key in originalData) && value !== '') {
-                hasChanges = true;
-                break;
+        if (!hasChanges) {
+            for (let [key, value] of currentData.entries()) {
+                if (!(key in originalData) && value !== '') {
+                    hasChanges = true;
+                    break;
+                }
             }
         }
 
@@ -158,7 +183,8 @@ class UnsavedChangesDetector {
         if (form) {
             form.reset();
             this.saveOriginalFormData(form);
-            this.setUnsavedChanges(false);
+            // إعادة التحقق من جميع النماذج
+            this.recheckAllForms();
         }
     }
 
@@ -191,11 +217,51 @@ class UnsavedChangesDetector {
             this.trackedForms.delete(form);
             this.originalFormData.delete(form);
             
-            // إعادة التحقق من الحالة العامة
-            if (this.trackedForms.size === 0) {
-                this.setUnsavedChanges(false);
-            }
+            // إعادة التحقق من جميع النماذج المتبقية
+            this.recheckAllForms();
         }
+    }
+
+    /**
+     * إعادة التحقق من حالة جميع النماذج المتتبعة
+     * @private
+     */
+    recheckAllForms() {
+        if (this.trackedForms.size === 0) {
+            this.setUnsavedChanges(false);
+            return;
+        }
+
+        let hasAnyChanges = false;
+        for (let form of this.trackedForms) {
+            const originalData = this.originalFormData.get(form);
+            if (!originalData) continue;
+
+            const currentData = new FormData(form);
+            
+            // التحقق من كل حقل
+            for (let [key, originalValue] of Object.entries(originalData)) {
+                const currentValue = currentData.get(key) || '';
+                if (originalValue !== currentValue) {
+                    hasAnyChanges = true;
+                    break;
+                }
+            }
+
+            if (hasAnyChanges) break;
+
+            // التحقق من الحقول الجديدة
+            for (let [key, value] of currentData.entries()) {
+                if (!(key in originalData) && value !== '') {
+                    hasAnyChanges = true;
+                    break;
+                }
+            }
+
+            if (hasAnyChanges) break;
+        }
+
+        this.setUnsavedChanges(hasAnyChanges);
     }
 
     /**
@@ -218,6 +284,12 @@ class UnsavedChangesDetector {
      */
     protectNavigation(selector = 'a, button[type="button"]') {
         document.querySelectorAll(selector).forEach(element => {
+            // تجنب إضافة مستمعات مكررة
+            if (this.protectedElements.has(element)) {
+                return;
+            }
+            
+            this.protectedElements.add(element);
             element.addEventListener('click', (e) => {
                 if (this.hasUnsavedChanges && this.isEnabled) {
                     if (!this.confirmNavigation()) {
