@@ -50,7 +50,7 @@ uploads/
 images/uploads/
 temp_uploads/
 
-# Package archives
+# Package archives (ignore but keep essential deployment archives)
 *.tar.gz
 *.zip
 *.rar
