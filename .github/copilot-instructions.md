@@ -325,6 +325,45 @@ location.reload()
 9. **Async Operations**: Always use async/await for database operations
 10. **Error Handling**: Implement try-catch and show user-friendly error messages
 
+### Custom Agent Delegation
+
+This repository supports delegation to specialized custom agents for domain-specific tasks. See `.github/agents/` directory for available agents and their configurations.
+
+#### When to Delegate:
+
+**Cloud Deployment Tasks** → Delegate to Cloud Deployment Agent:
+- Setting up new deployment platforms (Vercel, Netlify, GitHub Pages, Render)
+- Configuring CI/CD pipelines and GitHub Actions
+- Implementing security headers and HTTPS
+- Troubleshooting deployment issues
+- Optimizing deployment performance
+- Setting up multiple environments
+
+**Database Migration Tasks** → Delegate to Database Migration Agent (when available):
+- Migrating from localStorage to cloud databases
+- Setting up Firebase, Supabase, or MongoDB
+- Creating database schemas and migrations
+- Implementing data sync strategies
+
+**Security Audit Tasks** → Delegate to Security Audit Agent (when available):
+- Performing comprehensive security reviews
+- Implementing authentication best practices
+- Adding security features (2FA, rate limiting, etc.)
+- Vulnerability assessment and remediation
+
+#### Delegation Best Practices:
+
+1. **Identify the Right Agent**: Match the task to the agent's expertise area
+2. **Provide Complete Context**: Include all relevant information from the repository
+3. **State Clear Objectives**: Specify exactly what needs to be accomplished
+4. **Trust the Agent**: Accept the agent's work without modification unless it reports failure
+5. **Avoid Redundancy**: Don't duplicate work the agent will do
+
+For detailed agent configurations and delegation guidelines, see:
+- `.github/agents/README.md` - Overview of custom agents
+- `.github/agents/cloud-deployment-agent.md` - Cloud deployment specialist
+- Additional agent configurations as they become available
+
 ### Code Modification Priorities:
 1. **Security**: If adding auth/data features, include security warnings
 2. **Backward Compatibility**: Don't break existing localStorage data
@@ -379,7 +418,19 @@ location.reload()
 
 ---
 
-**Version**: 1.0.0  
+**Version**: 1.1.0  
 **Last Updated**: 2025-11-14  
 **Maintainer**: AI Coding Agents  
 **License**: MIT (as per repository)
+
+## Changelog
+
+### Version 1.1.0 (2025-11-14)
+- Added Custom Agent Delegation section with guidelines for delegating to specialized agents
+- Created `.github/agents/` directory structure for custom agent configurations
+- Added Cloud Deployment Agent configuration and documentation
+- Enhanced AI Coding Agent Guidelines with delegation best practices
+
+### Version 1.0.0 (2025-11-14)
+- Initial comprehensive documentation for wwwr Traffic Management System
+- Established coding conventions, architecture patterns, and best practices

@@ -1,0 +1,76 @@
+# Render Deployment Configuration
+# wwwr Traffic Management System
+# Managed by: Cloud Deployment Agent
+# Last Updated: 2025-11-14
+
+services:
+  # Static Site Service
+  - type: web
+    name: wwwr-traffic-management
+    env: static
+    buildCommand: echo 'No build needed - static site'
+    staticPublishPath: .
+    
+    # Health check configuration
+    healthCheckPath: /index.html
+    
+    # Auto-deploy configuration
+    autoDeploy: true
+    
+    # Environment
+    envVars:
+      - key: NODE_ENV
+        value: production
+    
+    # Custom domains (configure in Render dashboard)
+    # domains:
+    #   - your-custom-domain.com
+    
+    # Headers configuration (for security)
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      
+      - path: /*
+        name: X-XSS-Protection
+        value: "1; mode=block"
+      
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      
+      - path: /*
+        name: Permissions-Policy
+        value: "geolocation=(), microphone=(), camera=()"
+    
+    # Redirect rules for SPA routing
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+# Notes:
+# 1. This is a static site with no build step required
+# 2. All files are served directly from the root directory
+# 3. SPA routing is handled via rewrites to index.html
+# 4. Security headers are configured for production use
+# 5. Environment variables should be set in Render dashboard for sensitive data
+# 6. Custom domains must be configured through Render dashboard after deployment
+
+# Deployment Instructions:
+# 1. Push this file to your repository root as 'render.yaml'
+# 2. Connect your repository to Render (https://render.com)
+# 3. Render will auto-detect the configuration and deploy
+# 4. Configure custom domain in Render dashboard if needed
+# 5. Set up environment variables in Render dashboard for API keys
+
+# Troubleshooting:
+# - If routes return 404: Verify the rewrite rule is in place
+# - If security headers not working: Check Render dashboard for header overrides
+# - If deployment fails: Ensure repository is connected and accessible
+# - For custom domain issues: Verify DNS settings in domain registrar
