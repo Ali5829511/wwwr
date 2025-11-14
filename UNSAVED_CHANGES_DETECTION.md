@@ -274,14 +274,20 @@ window.addEventListener('unsavedChangesChanged', (e) => {
 ## الصفحات المدمجة حالياً / Currently Integrated Pages
 
 - ✅ `index.html` - صفحة تسجيل الدخول / Login page
+- ✅ `test-unsaved-changes.html` - صفحة اختبار شاملة / Comprehensive test page
 
 ## صفحات للتكامل المستقبلي / Pages for Future Integration
 
-- ⏳ `vehicle_database_manager.html`
-- ⏳ `apartments_management.html`
-- ⏳ `residential_units_management.html`
-- ⏳ `villas_management.html`
-- ⏳ `plate_recognition.html`
+**ملاحظة:** معظم الصفحات في النظام هي صفحات قراءة فقط (عرض بيانات، بحث، استعلام) ولا تحتاج لهذه الميزة. هذه الميزة مناسبة فقط للصفحات التي تحتوي على نماذج إدخال بيانات حقيقية.
+
+**Note:** Most pages in the system are read-only (display data, search, inquiry) and don't need this feature. This feature is only suitable for pages with actual data entry forms.
+
+الصفحات التي قد تحتاج التكامل في المستقبل (إذا تم إضافة نماذج إدخال):
+- ⏳ `vehicle_database_manager.html` - إذا تم إضافة نموذج إدخال سيارات
+- ⏳ `apartments_management.html` - إذا تم إضافة نموذج إدخال شقق
+- ⏳ `residential_units_management.html` - إذا تم إضافة نموذج إدخال وحدات
+- ⏳ `villas_management.html` - إذا تم إضافة نموذج إدخال فلل
+- ⏳ `plate_recognition.html` - للصور المرفوعة (اختياري)
 
 ## المساهمة / Contributing
 
@@ -291,6 +297,33 @@ window.addEventListener('unsavedChangesChanged', (e) => {
 2. استدع `window.trackFormChanges('formId')` بعد تحميل الصفحة
 3. استدع `window.markFormAsSaved('formId')` بعد الحفظ الناجح
 4. اختبر الوظيفة بإدخال بيانات ومحاولة المغادرة
+
+## الاختبار / Testing
+
+### صفحة الاختبار التفاعلية / Interactive Test Page
+
+تم إنشاء صفحة اختبار شاملة: `test-unsaved-changes.html`
+
+**الميزات / Features:**
+- ✅ واجهة ثنائية اللغة (عربي/إنجليزي)
+- ✅ نموذج اختبار تفاعلي مع مؤشر حالة فورية
+- ✅ عناصر تحكم للتحقق من الوظائف
+- ✅ تغذية راجعة بصرية للتغييرات غير المحفوظة
+- ✅ توضيح جميع ميزات الـ API
+
+**كيفية الاستخدام:**
+1. افتح `test-unsaved-changes.html` في المتصفح
+2. أدخل بيانات في النموذج
+3. لاحظ تغيير المؤشر إلى "⚠️ يوجد تغييرات غير محفوظة"
+4. حاول مغادرة الصفحة (سيظهر تحذير)
+5. اضغط "حفظ" ثم حاول المغادرة مرة أخرى (لن يظهر تحذير)
+
+### الاختبار على صفحة تسجيل الدخول / Testing on Login Page
+
+صفحة تسجيل الدخول (`index.html`) مُكاملة بالفعل:
+- ✅ يتم تتبع التغييرات عند الكتابة في الحقول
+- ✅ يظهر تحذير عند محاولة المغادرة قبل تسجيل الدخول
+- ✅ يتم إلغاء التتبع بعد تسجيل الدخول الناجح
 
 ## الدعم / Support
 
