@@ -420,14 +420,16 @@
                 </div>
             </div>
             <div id="apiConfigForm" style="margin-top: 20px;">
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <input type="text" id="apiTokenInput" placeholder="أدخل رمز Plate Recognizer API" 
-                           style="flex: 1; padding: 12px 15px; border: 2px solid #8B6F47; border-radius: 8px; font-size: 1em; font-family: 'Tajawal', Arial;">
-                    <button onclick="saveAPIToken()" 
-                            style="background: #8B6F47; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 600; transition: all 0.3s;">
-                        <i class="fas fa-save"></i> حفظ
-                    </button>
-                </div>
+                <form id="apiTokenForm" onsubmit="event.preventDefault(); saveAPIToken();">
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="text" id="apiTokenInput" name="apiToken" placeholder="أدخل رمز Plate Recognizer API" 
+                               style="flex: 1; padding: 12px 15px; border: 2px solid #8B6F47; border-radius: 8px; font-size: 1em; font-family: 'Tajawal', Arial;">
+                        <button type="submit"
+                                style="background: #8B6F47; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 600; transition: all 0.3s;">
+                            <i class="fas fa-save"></i> حفظ
+                        </button>
+                    </div>
+                </form>
                 <p style="margin-top: 10px; font-size: 0.9em; color: #856404;">
                     <i class="fas fa-info-circle"></i> 
                     يمكنك الحصول على رمز API مجاني من 
@@ -501,6 +503,9 @@
         </div>
     </div>
 
+    <!-- Unsaved Changes Detection -->
+    <script src="js/unsaved-changes.js"></script>
+    
     <script>
         let selectedFiles = [];
         let apiToken = null;
@@ -509,6 +514,12 @@
         window.addEventListener('load', function() {
             loadAPIToken();
             loadHistory();
+            
+            // Initialize unsaved changes detection for API token form
+            const apiTokenForm = document.getElementById('apiTokenForm');
+            if (apiTokenForm && apiTokenForm.style.display !== 'none') {
+                window.trackFormChanges('apiTokenForm');
+            }
         });
 
         function loadAPIToken() {
@@ -548,6 +559,9 @@
             
             localStorage.setItem('plateRecognizerAPIToken', token);
             apiToken = token;
+            
+            // Mark form as saved to prevent unsaved changes warning
+            window.markFormAsSaved('apiTokenForm');
             
             const statusIcon = document.getElementById('statusIcon');
             const statusTitle = document.getElementById('statusTitle');
