@@ -274,14 +274,15 @@ window.addEventListener('unsavedChangesChanged', (e) => {
 ## الصفحات المدمجة حالياً / Currently Integrated Pages
 
 - ✅ `index.html` - صفحة تسجيل الدخول / Login page
+- ✅ `plate_recognition.html` - صفحة تمييز اللوحات / Plate Recognition page (API token input)
 
 ## صفحات للتكامل المستقبلي / Pages for Future Integration
 
-- ⏳ `vehicle_database_manager.html`
-- ⏳ `apartments_management.html`
-- ⏳ `residential_units_management.html`
-- ⏳ `villas_management.html`
-- ⏳ `plate_recognition.html`
+- ⏳ `vehicle_database_manager.html` (search only, no data entry forms)
+- ⏳ `apartments_management.html` (display only, no editable forms)
+- ⏳ `residential_units_management.html` (display only, no editable forms)
+- ⏳ `villas_management.html` (display only, no editable forms)
+- ⏳ `webhook_configuration.html` (minimal user input, checkboxes only)
 
 ## المساهمة / Contributing
 
