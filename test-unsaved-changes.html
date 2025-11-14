@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار كشف التغييرات غير المحفوظة - Test Unsaved Changes Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Tajawal', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            direction: rtl;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        h2 {
+            color: #764ba2;
+            margin: 30px 0 15px;
+            font-size: 1.5em;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .test-section {
+            background: #f5f5f5;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Tajawal', Arial, sans-serif;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-left: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+        
+        .status-clean {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .status-dirty {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffeeba;
+        }
+        
+        .instructions {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 10px;
+            border-right: 4px solid #667eea;
+            margin-bottom: 30px;
+        }
+        
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            margin-right: 20px;
+            line-height: 1.8;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 8px;
+        }
+        
+        .indicator-clean {
+            background: #28a745;
+        }
+        
+        .indicator-dirty {
+            background: #ffc107;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 اختبار كشف التغييرات غير المحفوظة</h1>
+        <p class="subtitle">Test Unsaved Changes Detection System</p>
+        
+        <div class="instructions">
+            <h3>📋 كيفية الاختبار - How to Test:</h3>
+            <ol>
+                <li>أدخل بيانات في النموذج أدناه - Enter data in the form below</li>
+                <li>حاول مغادرة الصفحة (أغلق التبويب أو انتقل لصفحة أخرى) - Try to leave the page</li>
+                <li>يجب أن تظهر رسالة تحذير - You should see a warning message</li>
+                <li>اضغط "حفظ" ثم حاول المغادرة - Click "Save" then try to leave</li>
+                <li>لن تظهر رسالة تحذير بعد الحفظ - No warning after saving</li>
+            </ol>
+        </div>
+        
+        <div class="test-section">
+            <h2>📝 نموذج اختبار - Test Form</h2>
+            
+            <form id="testForm">
+                <div class="form-group">
+                    <label for="name">الاسم - Name:</label>
+                    <input type="text" id="name" name="name" placeholder="أدخل اسمك...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني - Email:</label>
+                    <input type="email" id="email" name="email" placeholder="example@university.edu.sa">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">رسالة - Message:</label>
+                    <textarea id="message" name="message" placeholder="اكتب رسالتك هنا..."></textarea>
+                </div>
+                
+                <div>
+                    <button type="submit">💾 حفظ - Save</button>
+                    <button type="button" class="btn-secondary" onclick="resetTest()">🔄 إعادة تعيين - Reset</button>
+                </div>
+                
+                <div id="successMessage" class="success-message">
+                    ✅ تم الحفظ بنجاح! الآن يمكنك مغادرة الصفحة بأمان.
+                </div>
+            </form>
+            
+            <div id="statusIndicator" class="status status-clean">
+                <span class="indicator indicator-clean" id="indicator"></span>
+                <span id="statusText">حالة النموذج: نظيف (لا توجد تغييرات) - Status: Clean (No changes)</span>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔧 عناصر التحكم - Control Elements</h2>
+            <button type="button" onclick="checkStatus()">🔍 فحص الحالة - Check Status</button>
+            <button type="button" onclick="testNavigation()">🚪 اختبار المغادرة - Test Navigation</button>
+            <button type="button" class="btn-secondary" onclick="disableDetection()">❌ تعطيل الكشف - Disable Detection</button>
+            <button type="button" onclick="enableDetection()">✅ تفعيل الكشف - Enable Detection</button>
+        </div>
+    </div>
+
+    <!-- Include the unsaved changes detection library -->
+    <script src="js/unsaved-changes.js"></script>
+    
+    <script>
+        // تفعيل تتبع النموذج - Enable form tracking
+        window.trackFormChanges('testForm');
+        
+        // الاستماع لتغييرات الحالة - Listen for status changes
+        window.addEventListener('unsavedChangesChanged', (e) => {
+            updateStatusIndicator(e.detail.hasUnsavedChanges);
+        });
+        
+        // تحديث مؤشر الحالة - Update status indicator
+        function updateStatusIndicator(hasChanges) {
+            const statusDiv = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            const indicator = document.getElementById('indicator');
+            
+            if (hasChanges) {
+                statusDiv.className = 'status status-dirty';
+                statusText.textContent = '⚠️ يوجد تغييرات غير محفوظة - Unsaved changes detected';
+                indicator.className = 'indicator indicator-dirty';
+            } else {
+                statusDiv.className = 'status status-clean';
+                statusText.textContent = '✅ حالة النموذج: نظيف (لا توجد تغييرات) - Status: Clean (No changes)';
+                indicator.className = 'indicator indicator-clean';
+            }
+        }
+        
+        // معالج الحفظ - Save handler
+        document.getElementById('testForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // محاكاة عملية الحفظ - Simulate save operation
+            setTimeout(() => {
+                // وضع علامة كمحفوظ - Mark as saved
+                window.markFormAsSaved('testForm');
+                
+                // عرض رسالة النجاح - Show success message
+                const successMsg = document.getElementById('successMessage');
+                successMsg.style.display = 'block';
+                
+                setTimeout(() => {
+                    successMsg.style.display = 'none';
+                }, 3000);
+            }, 500);
+        });
+        
+        // إعادة تعيين الاختبار - Reset test
+        function resetTest() {
+            document.getElementById('testForm').reset();
+            window.unsavedChangesDetector.resetForm('testForm');
+            document.getElementById('successMessage').style.display = 'none';
+        }
+        
+        // فحص الحالة - Check status
+        function checkStatus() {
+            const hasChanges = window.hasUnsavedChanges();
+            alert(hasChanges 
+                ? '⚠️ يوجد تغييرات غير محفوظة!\nUnsaved changes detected!' 
+                : '✅ لا توجد تغييرات غير محفوظة.\nNo unsaved changes.');
+        }
+        
+        // اختبار المغادرة - Test navigation
+        function testNavigation() {
+            if (window.hasUnsavedChanges()) {
+                const confirmed = window.unsavedChangesDetector.confirmNavigation(
+                    'هل تريد حقاً المغادرة؟ سيتم فقدان التغييرات غير المحفوظة.\nAre you sure you want to leave? Unsaved changes will be lost.'
+                );
+                alert(confirmed 
+                    ? 'سيتم المغادرة - Will navigate' 
+                    : 'تم الإلغاء - Cancelled');
+            } else {
+                alert('✅ لا توجد تغييرات. يمكنك المغادرة بأمان.\nNo changes. Safe to navigate.');
+            }
+        }
+        
+        // تعطيل الكشف - Disable detection
+        function disableDetection() {
+            window.unsavedChangesDetector.setEnabled(false);
+            alert('❌ تم تعطيل كشف التغييرات.\nDetection disabled.');
+        }
+        
+        // تفعيل الكشف - Enable detection
+        function enableDetection() {
+            window.unsavedChangesDetector.setEnabled(true);
+            alert('✅ تم تفعيل كشف التغييرات.\nDetection enabled.');
+        }
+    </script>
+</body>
+</html>
