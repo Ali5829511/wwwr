@@ -50,7 +50,17 @@ uploads/
 images/uploads/
 temp_uploads/
 
-# Package archives
+# Package archives (ignore but keep essential deployment archives)
 *.tar.gz
 *.zip
 *.rar
+
+# Temporary screenshots and pasted images
+pasted_file_*.png
+pasted_file_*.jpg
+*_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_*.webp
+*_[0-9][0-9]-[0-9][0-9]-[0-9][0-9]_*.png
+
+# Data files - Excel spreadsheets
+*.xlsx
+*.xls
