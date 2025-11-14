@@ -728,6 +728,7 @@
     <!-- تحميل مكتبات النظام -->
     <script src="js/database.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/unsaved-changes.js"></script>
     
     <script>
         'use strict';
@@ -740,6 +741,9 @@
         const errorMessage = document.getElementById('errorMessage');
         const successMessage = document.getElementById('successMessage');
         const loginContainer = document.querySelector('.login-container');
+
+        // تفعيل تتبع التغييرات غير المحفوظة / Enable unsaved changes tracking
+        window.trackFormChanges('loginForm');
 
         // دوال مساعدة / Helper functions
         function showMessage(element, message, icon = '') {
@@ -811,6 +815,9 @@
                     
                     // تحديث وقت آخر تسجيل دخول
                     await window.db.updateLastLogin(result.user.id);
+                    
+                    // وضع علامة على النموذج كمحفوظ / Mark form as saved
+                    window.markFormAsSaved('loginForm');
                     
                     // توجيه المستخدم حسب دوره / Redirect user based on role
                     setTimeout(() => {
