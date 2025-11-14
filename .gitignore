@@ -55,26 +55,12 @@ temp_uploads/
 *.zip
 *.rar
 
-# Image files (screenshots, temporary images, pasted files)
+# Temporary screenshots and pasted images
 pasted_file_*.png
-pasted_file_*.webp
 pasted_file_*.jpg
-pasted_file_*.jpeg
-*_html_*.webp
-*_html_*.png
-8080-*.webp
-*_management_*.webp
-*.screenshot.png
-*.screenshot.jpg
+*_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_*.webp
+*_[0-9][0-9]-[0-9][0-9]-[0-9][0-9]_*.png
 
-# Excel and CSV files (except essential data files in specific directories)
+# Data files - Excel spreadsheets
 *.xlsx
 *.xls
-
-# Database exports (except essential schema files)
-database_package.tar.gz
-residential_units_update_package.tar.gz
-
-# System package archives (development artifacts)
-N-M-*.tar.gz
-N-M-*.zip
